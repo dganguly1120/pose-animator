@@ -2,6 +2,12 @@
 <html>
 
 <head>
+
+    <script type="text/javascript" src="js/three.min.js"></script>
+	<script type="text/javascript" src="js/Tween.js"></script>
+	<script type="text/javascript" src="js/RequestAnimationFrame.js"></script>
+	<script type="text/javascript" src="js/Detector.js"></script>
+	<script type="text/javascript" src="js/OrbitControls.js"></script>
     <script type="text/javascript" src="utils/CCapture.all.min.js"></script>
     <title>PoseNet - Camera Feed Demo</title>
     <style>
@@ -145,12 +151,17 @@
     <script src="camera.js"></script>
     <script>
 
-        window.onload  = init;
+        if(!Detector.webgl){
+            Detector.addGetWebGLMessage();
+        } else {
+            window.addEventListener( 'load', init, false );
+        }
+        TWEEN.start();
 
         function init() {
 
 		
-		capturer = null;
+		var capturer = null;
 
 		var dVB = document.getElementById( 'download-video-button' );
 			
@@ -167,7 +178,8 @@
             workersPath: 'src/',
             timeLimit: 4,
             frameLimit: 0,
-            autoSaveTime: 0
+            autoSaveTime: 0,
+            onProgress: null
         } );
 
         capturer.start();
