@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <script type="text/javascript" src="utils/CCapture.all.min.js"></script>
     <title>PoseNet - Camera Feed Demo</title>
     <style>
         body {
@@ -116,6 +117,7 @@
         </span>
         <div class="sk-spinner sk-spinner-pulse"></div>
     </div>
+    <a class="button" href="#" id="download-video-button" >Stop recording and view capture</a>
     <div class="canvas-container">
         <div id='main' style='display:none'>
             <video id="video" playsinline style=" -moz-transform: scaleX(-1);
@@ -141,6 +143,43 @@
         </div>
       </div>
     <script src="camera.js"></script>
+    <script>
+
+        window.onload  = init;
+
+        function init() {
+
+		
+		capturer = null;
+
+		var dVB = document.getElementById( 'download-video-button' );
+			
+		
+        var framerate = 60;
+
+        capturer = new CCapture( {
+            verbose: false,
+            display: true,
+            framerate: framerate,
+            motionBlurFrames: 0,
+            quality: 99,
+            format: "webm",
+            workersPath: 'src/',
+            timeLimit: 4,
+            frameLimit: 0,
+            autoSaveTime: 0
+        } );
+
+        capturer.start();
+        
+		dVB.addEventListener( 'click', function( e ) {
+			capturer.stop();
+			this.style.display = 'none';
+			//this.setAttribute( 'href',  );
+			capturer.save();
+		}, false );
+	}
+    </script>
 </body>
 
 </html>
